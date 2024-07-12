@@ -1,0 +1,49 @@
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    Int       @id @default(autoincrement())
+  uuid                  String    @default(uuid())
+  first_name            String
+  last_name             String
+  email_address         String    @unique
+  emailVerified         DateTime?
+  password              String
+  image                 String?
+  main_balance          Decimal   @default(0.00)
+  refer_from_uuid       String?
+  referral_balance      Decimal   @default(0.00)
+  life_referral_balance Decimal   @default(0.00)
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @updatedAt
+}
+
+model Faq {
+  id         Int      @id @default(autoincrement())
+  title      String   @db.Text
+  content    String   @db.Text
+  hide       Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Address {
+  id            String    @id @default(uuid())
+  full_name     String
+  company_name  String?
+  phone_number  String?    @unique
+  street_one    String
+  street_two    String?
+  city_name     String
+  state_code    String
+  country       String
+}
